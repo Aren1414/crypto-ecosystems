@@ -51,7 +51,11 @@ detect_platform() {
             [[ "$arch" == "arm64" ]] && full_platform="macos-aarch64" || echo "Unsupported platform: $os-$arch" && exit 1
             ;;
         "linux"*)
-            [[ "$arch" == "x86_64" ]] && full_platform="linux-x86_64" || echo "Unsupported platform: $os-$arch" && exit 1
+            case "$arch" in
+                "x86_64") full_platform="linux-x86_64" ;;
+                "aarch64") full_platform="linux-aarch64" ;;  # ✅ **افزودن پشتیبانی برای `linux-aarch64`**
+                *) echo "Unsupported platform: $os-$arch"; exit 1 ;;
+            esac
             ;;
         *)
             echo "Unsupported platform: $os-$arch"
